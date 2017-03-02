@@ -16,7 +16,7 @@ def deleteMatches():
     """Remove all the match records from the database."""
     conn=connect()
     c=conn.cursor()
-    c.execute("delete from matches;")
+    c.execute("delete from matches")
     c.execute("update standings set totalmatches=0, wins=0, loss=0")
     conn.commit()
     conn.close()
@@ -145,7 +145,10 @@ def swissPairings():
     """
     db = connect()
     c = db.cursor()
-    c.execute("SELECT p1.id AS id1, p1.name AS name1, p2.id AS id2, p2.name AS name2 FROM players AS p1, players AS p2, standings AS s1, stadings AS s2 WHERE p1.id > p2.id AND s1.player_id=p1.id AND s2.player_id=p2.id AND s1.wins=s2.wins")
+    c.execute(
+    "SELECT p1.id AS id1, p1.name AS name1, p2.id AS id2, p2.name AS name2 \
+    FROM players AS p1, players AS p2, standings AS s1, standings AS s2 \
+    WHERE p1.id > p2.id AND s1.player_id=p1.id AND s2.player_id=p2.id AND s1.wins=s2.wins")
 
 
 

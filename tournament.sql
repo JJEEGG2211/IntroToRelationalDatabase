@@ -5,9 +5,8 @@
 --
 -- You can write comments in this file by starting them with two dashes, like
 -- these lines here.
-\c tournament;
-\i tournament.sql;
-
+--\c tournament;
+--\i tournament.sql;
 create table players(
 	id serial primary key, 
 	name text
