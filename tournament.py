@@ -145,10 +145,28 @@ def swissPairings():
     """
     db = connect()
     c = db.cursor()
-    c.execute(
-    "SELECT p1.id AS id1, p1.name AS name1, p2.id AS id2, p2.name AS name2 \
-    FROM players AS p1, players AS p2, standings AS s1, standings AS s2 \
-    WHERE p1.id > p2.id AND s1.player_id=p1.id AND s2.player_id=p2.id AND s1.wins=s2.wins")
+    c.execute("SELECT EXISTS(SELECT totalmatches FROM standings WHERE totalmatches != 0)")
+    #print "1"
+    val = c.fetchone()
+    #print "2"
+    #print val
+    if val == (False,):
+        #print "3"
+        #print False
+        c.execute("")
+        "SELECT * FROM standings LIMIT (SELECT COUNT(*)/2 FROM standings) OFFSET (SELECT COUNT(*)/2 FROM standings);"
+        "SELECT * FROM standings LIMIT (SELECT COUNT(*)/2 FROM standings)"
+        "SELECT st1.player_id, st2.player_id \
+        FROM (SELECT * FROM standings LIMIT(SELECT COUNT(*)/2 FROM standings)) AS st1, \
+        (SELECT * FROM standings LIMIT(SELECT COUNT(*)/2 FROM standings) \
+        OFFSET (SELECT COUNT(*)/2 FROM standings)) as st2"
+    elif val == (True,):
+        #print "4"
+        #print True
+    #c.execute(
+    #"SELECT p1.id AS id1, p1.name AS name1, p2.id AS id2, p2.name AS name2 \
+    #FROM players AS p1, players AS p2, standings AS s1, standings AS s2 \
+    #WHERE p1.id > p2.id AND s1.player_id=p1.id AND s2.player_id=p2.id AND s1.wins=s2.wins")
 
 
 
