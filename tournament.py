@@ -93,7 +93,7 @@ def playerStandings():
     c.execute("select players.id, players.name, standings.wins, standings.totalmatches from players, standings where players.id=standings.player_id order by standings.wins desc")
     list = c.fetchall()
     conn.close()
-    print list
+    #print list
     return list
     
 
@@ -151,22 +151,33 @@ def swissPairings():
     #print "2"
     #print val
     if val == (False,):
-        #print "3"
+        print "3"
         #print False
-        c.execute("")
-        "SELECT * FROM standings LIMIT (SELECT COUNT(*)/2 FROM standings) OFFSET (SELECT COUNT(*)/2 FROM standings);"
-        "SELECT * FROM standings LIMIT (SELECT COUNT(*)/2 FROM standings)"
-        "SELECT st1.player_id, st2.player_id \
-        FROM (SELECT * FROM standings LIMIT(SELECT COUNT(*)/2 FROM standings)) AS st1, \
-        (SELECT * FROM standings LIMIT(SELECT COUNT(*)/2 FROM standings) \
-        OFFSET (SELECT COUNT(*)/2 FROM standings)) as st2"
+        c.execute("SELECT player1.id AS id1, player1.name AS name1, player2.id AS id2, player2.name AS name2 FROM \
+        initial_pairs, players AS player1, players AS player2 WHERE \
+        initial_pairs.player_id1 = player1.id AND initial_pairs.player_id2 = player2.id;")
+        
+        #"SELECT * FROM standings LIMIT (SELECT COUNT(*)/2 FROM standings) OFFSET (SELECT COUNT(*)/2 FROM standings);"
+        #"SELECT * FROM standings LIMIT (SELECT COUNT(*)/2 FROM standings)"
+        #"SELECT st1.player_id, st2.player_id FROM (SELECT * FROM standings LIMIT(SELECT COUNT(*)/2 FROM standings)) AS st1,  (SELECT * FROM standings LIMIT(SELECT COUNT(*)/2 FROM standings) OFFSET (SELECT COUNT(*)/2 FROM standings)) as st2"
+        
+        #"SELECT * FROM \
+        #(SELECT standings.*, ROW_NUMBER() OVER (ORDER BY standings.player_id) FROM standings LIMIT (SELECT COUNT(*)/2 FROM standings)) as t1,  \
+        #(SELECT standings.*, ROW_NUMBER() OVER (ORDER BY standings.player_id) FROM standings LIMIT (SELECT COUNT(*)/2 FROM standings) OFFSET (SELECT COUNT(*)/2 FROM standings)) AS t2 WHERE t1.row_number  = t2.row_number"
+        
+        #"SELECT t1.*, ROW_NUMBER() OVER (ORDER BY t1.player_id) FROM (SELECT standings.* FROM standings LIMIT (SELECT COUNT(*)/2 FROM standings)) AS t1"
+        #"SELECT t2.*, ROW_NUMBER() OVER (ORDER BY t2.player_id) FROM (SELECT standings.* FROM standings LIMIT (SELECT COUNT(*)/2 FROM standings) OFFSET (SELECT COUNT(*)/2 FROM standings)) AS t2"
+        
+        list = c.fetchall()
+        db.close()
+        print list
+        return list
+    
     elif val == (True,):
-        #print "4"
+        print "4"
         #print True
-    #c.execute(
-    #"SELECT p1.id AS id1, p1.name AS name1, p2.id AS id2, p2.name AS name2 \
-    #FROM players AS p1, players AS p2, standings AS s1, standings AS s2 \
-    #WHERE p1.id > p2.id AND s1.player_id=p1.id AND s2.player_id=p2.id AND s1.wins=s2.wins")
-
-
-
+        #c.execute(
+        #"SELECT p1.id AS id1, p1.name AS name1, p2.id AS id2, p2.name AS name2 \
+        #FROM players AS p1, players AS p2, standings AS s1, standings AS s2 \
+        #WHERE p1.id > p2.id AND s1.player_id=p1.id AND s2.player_id=p2.id AND s1.wins=s2.wins")
+        c.execute("")
