@@ -35,4 +35,4 @@ CREATE OR REPLACE VIEW public.initial_pairs AS
 	WHERE table1.trow_num1 = table2.trow_num2;
 	
 CREATE OR REPLACE VIEW public.sort_by_wins AS
-	SELECT * FROM standings ORDER BY wins DESC, loss;
+	SELECT *, ROW_NUMBER() OVER(ORDER BY wins DESC, loss) FROM standings;
