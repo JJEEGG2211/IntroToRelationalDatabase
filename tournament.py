@@ -174,6 +174,7 @@ def swissPairings():
         return list
     
     elif val == (True,):
+        c.execute("")
         print "4"
         #print True
         #c.execute(
