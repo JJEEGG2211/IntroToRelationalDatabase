@@ -151,7 +151,7 @@ def swissPairings():
     #print "2"
     #print val
     if val == (False,):
-        print "3"
+        #print "3"
         #print False
         c.execute("SELECT player1.id AS id1, player1.name AS name1, player2.id AS id2, player2.name AS name2 FROM \
         initial_pairs, players AS player1, players AS player2 WHERE \
@@ -170,15 +170,23 @@ def swissPairings():
         
         list = c.fetchall()
         db.close()
-        print list
+        #print list
         return list
     
     elif val == (True,):
-        c.execute("")
-        print "4"
+        c.execute(
+        "SELECT winners.id, p1.name, losers.id, p2.name \
+        FROM winners, losers, players AS p1, players AS p2 \
+        WHERE winners.rwnum = losers.rwnum AND \
+        winners.player_id=p1.id AND \
+        losers.player_id=p2.id")
+        #print "4"
         #print True
         #c.execute(
         #"SELECT p1.id AS id1, p1.name AS name1, p2.id AS id2, p2.name AS name2 \
         #FROM players AS p1, players AS p2, standings AS s1, standings AS s2 \
         #WHERE p1.id > p2.id AND s1.player_id=p1.id AND s2.player_id=p2.id AND s1.wins=s2.wins")
-        c.execute("")
+        list = c.fetchall()
+        db.close()
+        #print list
+        return list
